@@ -1,9 +1,6 @@
-import { type } from "os";
 import React, { useEffect, useState } from "react";
 
-export interface IHomePageProps {}
-
-const HomePage: React.FunctionComponent<IHomePageProps> = (props) => {
+const HomePage: React.FC = (props) => {
     const [backendData, setBackendData] = useState<any>([{}])
 
     useEffect(() => {
@@ -18,10 +15,13 @@ const HomePage: React.FunctionComponent<IHomePageProps> = (props) => {
 
     return (
         <div>
+            <a href="/reg">registration form that gets one string</a>
+
+            <p>here we get array from server</p>
             {(typeof backendData.testArray === "undefined") ? (
                 <p>loading</p>
             )  : (
-                backendData.testArray.map((element: any, i: any) => (
+                backendData.testArray.map((element: string, i: number) => (
                     <p key={i}>{element}</p>
                 ))
             )}

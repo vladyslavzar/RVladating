@@ -1,9 +1,13 @@
 import express from "express";
+import APIRouter from "./routes/api.js";
+import cors from "cors";
+import RegRouter from './routes/register.js'
 
 const app = express();
 
-app.get("/api", (req, res) => {
-    res.json({testArray: ["rvl", "rvl1", "rvl2", "rvl3", "rvl4"]});
-});
+app.use(cors({origin: "*"}));
+app.use("/api", APIRouter);
+app.use("/api/register", RegRouter);
 
-app.listen(5000);
+
+app.listen(5000, () => {console.log("server started on port 5000")});
