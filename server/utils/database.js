@@ -1,5 +1,5 @@
 import db from "mongoose";
-import userModel from "./db/models/user.js";
+import userModel from "../db/models/user.js";
 import dotenv from "dotenv";
 
 dotenv.config();
