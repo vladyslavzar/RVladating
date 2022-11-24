@@ -6,8 +6,10 @@ import StepLayout from "./StepLayout";
 
 const Step1: FC<StepProps> = ({ nextStep }) => {
   const [userData, setUserData] = useState<any>({
+    firstName: "",
+    lastName: "",
     email: "",
-    phone: "",
+    password: "",
   });
 
   const [Response, setResponse] = useState();
@@ -28,13 +30,18 @@ const Step1: FC<StepProps> = ({ nextStep }) => {
     axios
       .post(
         "http://localhost:5000/api/register",
-        {
-          data: userData.data,
-          email: userData.email,
-        },
+        
+        JSON.stringify(
+          {
+            firstName: userData.firstName, 
+            lastName: userData.lastName,
+            email: userData.email,
+            password: userData.password,
+          }
+        ),
         {
           headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
+            "Content-Type": "application/json",
           },
         }
       )
@@ -52,12 +59,22 @@ const Step1: FC<StepProps> = ({ nextStep }) => {
     <StepLayout submitHandler={(e) => submit(e)}>
       <TextArea
         inputHandler={(e: any) => handle(e)}
-        value={userData.data}
-        name="data"
-        id="data"
+        value={userData.firstName}
+        name="firstName"
+        id="firstName"
         size="small"
         isError={false}
-        placeHolder="username"
+        placeHolder="First Name"
+        type="text"
+      />
+      <TextArea
+        inputHandler={(e: any) => handle(e)}
+        value={userData.lastName}
+        name="lastName"
+        id="lastName"
+        size="small"
+        isError={false}
+        placeHolder="Last Name"
         type="text"
       />
       <TextArea
@@ -69,6 +86,16 @@ const Step1: FC<StepProps> = ({ nextStep }) => {
         isError={false}
         placeHolder="Your E-mail"
         type="email"
+      />
+      <TextArea
+        inputHandler={(e: any) => handle(e)}
+        value={userData.password}
+        name="password"
+        id="password"
+        size="small"
+        isError={false}
+        placeHolder="Create Password"
+        type="password"
       />
       <p>{Response}</p>
     </StepLayout>
