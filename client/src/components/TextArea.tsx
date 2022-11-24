@@ -9,6 +9,7 @@ interface TextAreaProps {
   name: string;
   value: string;
   id?: string;
+  type: string;
 }
 
 const TextArea: FC<TextAreaProps> = ({
@@ -19,6 +20,7 @@ const TextArea: FC<TextAreaProps> = ({
   name,
   value,
   id,
+  type,
 }) => {
   return (
     <Input
@@ -29,6 +31,7 @@ const TextArea: FC<TextAreaProps> = ({
       name={name}
       value={value}
       id={id}
+      type={type}
     />
   );
 };

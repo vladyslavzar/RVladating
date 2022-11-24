@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
-const HomePage: React.FC = (props) => {
+const HomePage: FC = (props) => {
     const [backendData, setBackendData] = useState<any>([{}])
 
     useEffect(() => {
@@ -15,7 +15,7 @@ const HomePage: React.FC = (props) => {
 
     return (
         <div>
-            <a href="/reg">registration form that gets one string</a>
+            <a href="/reg">registration form</a>
 
             <p>here we get array from server</p>
             {(typeof backendData.testArray === "undefined") ? (

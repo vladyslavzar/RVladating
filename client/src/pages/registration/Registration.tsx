@@ -1,12 +1,15 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useState } from "react";
 import axios from "axios";
 import Container from "../../layout/Container";
 import { TextArea, DefaultButton } from "../../components";
 
 const Registration: FC = (props) => {
   const [userData, setUserData] = useState<any>({
-    data: "",
+    email: "",
+    phone: "",
   });
+
+  const [Response, setResponse] = useState();
 
   function handle(e: any) {
     const newData = { ...userData };
@@ -24,6 +27,7 @@ const Registration: FC = (props) => {
         "http://localhost:5000/api/register",
         {
           data: userData.data,
+          email: userData.email,
         },
         {
           headers: {
@@ -32,6 +36,7 @@ const Registration: FC = (props) => {
         }
       )
       .then((response: any) => {
+        setResponse(response.data);
         console.log(response);
       })
       .catch((error: any) => {
@@ -50,12 +55,22 @@ const Registration: FC = (props) => {
           size="small"
           isError={false}
           placeHolder="username"
+          type="text"
+        />
+        <TextArea
+          inputHandler={(e: any) => handle(e)}
+          value={userData.email}
+          name="email"
+          id="email"
+          size="small"
+          isError={false}
+          placeHolder="Your E-mail"
+          type="email"
         />
         <DefaultButton type="submit" text="submit" isFilled={false} />
       </form>
       <p>
-        here must be response (request and response getting work fine, you can
-        see response in dev tools)
+        {Response}
       </p>
     </Container>
   );
