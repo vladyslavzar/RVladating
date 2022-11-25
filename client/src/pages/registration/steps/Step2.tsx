@@ -4,7 +4,8 @@ import { TextArea } from "../../../components";
 import { StepProps } from "../../../types/index";
 import StepLayout from "./StepLayout";
 
-const Step2: FC<StepProps> = ({ nextStep }) => {
+const Step2: FC<StepProps> = ({ nextStep, param }) => {
+
   return (
     <StepLayout submitHandler={nextStep}>
       <TextArea
@@ -17,7 +18,7 @@ const Step2: FC<StepProps> = ({ nextStep }) => {
         placeHolder="code"
         type="text"
       />
-      <p>**response**</p>
+      <p>{param}</p>
     </StepLayout>
   );
 };

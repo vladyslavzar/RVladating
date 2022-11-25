@@ -6,10 +6,7 @@ import StepLayout from "./StepLayout";
 
 const Step1: FC<StepProps> = ({ nextStep }) => {
   const [userData, setUserData] = useState<any>({
-    firstName: "",
-    lastName: "",
     email: "",
-    password: "",
   });
 
   const [Response, setResponse] = useState("");
@@ -33,10 +30,7 @@ const Step1: FC<StepProps> = ({ nextStep }) => {
         
         JSON.stringify(
           {
-            firstName: userData.firstName, 
-            lastName: userData.lastName,
             email: userData.email,
-            password: userData.password,
           }
         ),
         {
@@ -48,7 +42,9 @@ const Step1: FC<StepProps> = ({ nextStep }) => {
       .then((response: any) => {
         setResponse(response.data.message);
         console.log(response);
-        //next step removed because verification page will redirect u to next step
+        setTimeout(() => {
+          nextStep(userData.email);
+        }, 3000);
       })
       .catch((error: any) => {
         console.error(error);
@@ -57,26 +53,7 @@ const Step1: FC<StepProps> = ({ nextStep }) => {
 
   return (
     <StepLayout submitHandler={(e) => submit(e)}>
-      <TextArea
-        inputHandler={(e: any) => handle(e)}
-        value={userData.firstName}
-        name="firstName"
-        id="firstName"
-        size="small"
-        isError={false}
-        placeHolder="First Name"
-        type="text"
-      />
-      <TextArea
-        inputHandler={(e: any) => handle(e)}
-        value={userData.lastName}
-        name="lastName"
-        id="lastName"
-        size="small"
-        isError={false}
-        placeHolder="Last Name"
-        type="text"
-      />
+      <h1>Step 1</h1>
       <TextArea
         inputHandler={(e: any) => handle(e)}
         value={userData.email}
@@ -87,16 +64,7 @@ const Step1: FC<StepProps> = ({ nextStep }) => {
         placeHolder="Your E-mail"
         type="email"
       />
-      <TextArea
-        inputHandler={(e: any) => handle(e)}
-        value={userData.password}
-        name="password"
-        id="password"
-        size="small"
-        isError={false}
-        placeHolder="Create Password"
-        type="password"
-      />
+
       <p>{Response}</p>
     </StepLayout>
   );

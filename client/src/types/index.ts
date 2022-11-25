@@ -6,5 +6,6 @@ export interface StepLayoutProps{
 }
 
 export interface StepProps{
-    nextStep: () => void;
+    nextStep: (param: string) => void;
+    param?: string;
 }

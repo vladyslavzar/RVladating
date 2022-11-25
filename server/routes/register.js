@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import bcrypt from "bcrypt";
 import sendMail from "./utils/sendMail.js";
 import database from "./utils/database.js";
-import validate from "./utils/validate.js";
+import { validateEmail, validatePassword } from "./utils/validate.js";
 
 const RegRouter = express.Router();
 
@@ -12,7 +12,7 @@ const jsonParser = bodyParser.json({ extended: false });
 RegRouter.post("/", jsonParser, async (req, res) => {
     try {
         const userData = req.body;
-        const { validationError } = validate(userData);
+        const { validationError } = validateEmail(userData);
         
         if (validationError) {
             return res.status(400).json({message: validationError.details[0].message});
@@ -23,10 +23,7 @@ RegRouter.post("/", jsonParser, async (req, res) => {
             return res.status(409).json({message: "user with given email already exists"});
         }
 
-        let salt = await bcrypt.genSalt();
-        let hashedPassword = await bcrypt.hash(userData.password, salt);
-
-        user = await database.addUser({...userData, password: hashedPassword});
+        user = await database.addUser(userData);
         let userToken = await database.addUserToken(user._id);
 
         const verifyUrl = `http://localhost:5000/api/register/${user._id}/verify/${userToken.token}`;
@@ -44,6 +41,18 @@ RegRouter.post("/", jsonParser, async (req, res) => {
     catch (error) {
         console.error(error);
     }
+});
+
+RegRouter.post("/step3", jsonParser, async (req, res) => {
+    const userData = req.body;
+    const { validationError } = validatePassword(userData);
+    
+    if (validationError) {
+        return res.status(400).json({message: validationError.details[0].message});
+    }
+
+    let salt = await bcrypt.genSalt();
+    let hashedPassword = await bcrypt.hash(userData.password, salt);
 });
 
 RegRouter.get("/:id/verify/:token", async (req, res) => {
