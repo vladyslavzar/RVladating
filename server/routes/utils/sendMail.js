@@ -16,6 +16,8 @@ function sendMail(mailSettings) {
         }
     });
 
+    mailSettings.from = process.env.COMPANY_EMAIL;
+
     transporter.sendMail(mailSettings, (error, info) => {
         if (error) {
             throw error;
