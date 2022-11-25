@@ -12,7 +12,7 @@ const Step1: FC<StepProps> = ({ nextStep }) => {
     password: "",
   });
 
-  const [Response, setResponse] = useState();
+  const [Response, setResponse] = useState("");
 
   function handle(e: any) {
     e.preventDefault();
@@ -46,12 +46,12 @@ const Step1: FC<StepProps> = ({ nextStep }) => {
         }
       )
       .then((response: any) => {
-        setResponse(response.data);
+        setResponse(response.data.message);
         console.log(response);
-        setTimeout(nextStep, 1000);
+        //next step removed because verification page will redirect u to next step
       })
       .catch((error: any) => {
-        console.log(error);
+        console.error(error);
       });
   }
 
