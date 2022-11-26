@@ -10,7 +10,7 @@ class Database {
     constructor(url) {
         this.connection = db.connect(url, {useNewUrlParser: true})
             .then (
-                () => {console.log("connected")}
+                () => {console.log("database connected")}
             )
             .catch (
                 error => {console.log(error)}
@@ -32,7 +32,7 @@ class Database {
         try {
             const token = await new tokenModel({
                 userId: userId,
-                token: crypto.randomBytes(32).toString("hex"),
+                token: crypto.randomBytes(16).toString("hex"),
             })
             .save();
             console.log("created token");

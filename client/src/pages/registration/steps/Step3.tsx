@@ -4,62 +4,63 @@ import { TextArea } from "../../../components";
 import { StepProps } from "../../../types/index";
 import StepLayout from "./StepLayout";
 
-const Step3: FC<StepProps> = ({ nextStep }) => {
+const Step3: FC<StepProps> = ({ nextStep, param }) => {
     const [userData, setUserData] = useState<any>({
         password: "",
     });
 
     function handle(e: any) {
-        e.preventDefault();
+      e.preventDefault();
 
-        const newData = { ...userData };
-        newData[e.target.id] = e.target.value;
-        setUserData(newData);
+      const newData = { ...userData };
+      newData[e.target.id] = e.target.value;
+      setUserData(newData);
     }
 
     function submit(e: any) {
-        e.preventDefault();
+      e.preventDefault();
 
-        console.log(userData);
+      console.log(userData);
 
-        axios
-            .post(
-            "http://localhost:5000/api/register",
-            
-            JSON.stringify(
-              {
-                password: userData.password,
-              }
-            ),
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-            )
-            .then((response: any) => {
-                console.log(response);
-                setTimeout(nextStep, 3000);
-            })
-            .catch((error: any) => {
-                console.error(error);
-            });
+      axios
+        .post (
+          "http://localhost:5000/api/register/password",
+        
+          JSON.stringify(
+          {
+            email: param,
+            password: userData.password,
+          }
+          ),
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+          )
+        .then((response: any) => {
+          console.log(response);
+          setTimeout(nextStep, 1000);
+        })
+        .catch((error: any) => {
+          console.error(error);
+        }
+      );
     }
     return (
-        <StepLayout submitHandler={(e) => submit(e)}>
-            <h1>Step 3</h1>
+      <StepLayout submitHandler={(e) => submit(e)}>
+        <h1>Step 3</h1>
 
-            <TextArea
-            inputHandler={(e: any) => handle(e)}
-            value={userData.email}
-            name="password"
-            id="password"
-            size="small"
-            isError={false}
-            placeHolder="Password"
-            type="password"
-            />
-    
+        <TextArea
+        inputHandler={(e: any) => handle(e)}
+        value={userData.email}
+        name="password"
+        id="password"
+        size="small"
+        isError={false}
+        placeHolder="Password"
+        type="password"
+        />
       </StepLayout>
     )
 }

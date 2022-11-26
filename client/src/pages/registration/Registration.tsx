@@ -14,7 +14,7 @@ const Registration: FC = () => {
     <>
       {step === 1 && <Step1 nextStep={nextStep} />}
       {step === 2 && <Step2 nextStep={nextStep} param={stepParam} />}
-      {step === 3 && <Step3 nextStep={nextStep} />}
+      {step === 3 && <Step3 nextStep={nextStep} param={stepParam} />}
     </>
   );
 };
