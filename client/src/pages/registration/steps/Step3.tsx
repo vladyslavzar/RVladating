@@ -24,7 +24,7 @@ const Step3: FC<StepProps> = ({ nextStep, param }) => {
 
       axios
         .post (
-          "http://localhost:5000/api/register/password",
+          "http://localhost:5000/users/register/password",
         
           JSON.stringify(
           {

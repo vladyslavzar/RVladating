@@ -9,7 +9,7 @@
     }
   },
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "nodemon -r dotenv/config src/index.js dotenv_config_path=env/local.env",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

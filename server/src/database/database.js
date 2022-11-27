@@ -1,10 +1,7 @@
 import db from "mongoose";
-import userModel from "../../db/models/user.js";
-import tokenModel from "../../db/models/userToken.js";
-import dotenv from "dotenv";
+import userModel from "./models/user.js";
+import tokenModel from "./models/userToken.js";
 import crypto from "crypto";
-
-dotenv.config();
 
 class Database {
     constructor(url) {
@@ -15,6 +12,8 @@ class Database {
             .catch (
                 error => {console.log(error)}
             );
+            
+        this.url = url;
     }
 
     async addUser(data) {

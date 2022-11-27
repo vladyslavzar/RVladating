@@ -1,18 +1,16 @@
 import express from 'express';
-import bodyParser from "body-parser";
 import bcrypt from "bcrypt";
-import sendMail from "./utils/sendMail.js";
-import database from "./utils/database.js";
-import { validateEmail, validatePassword } from "./utils/validate.js";
-import RegVerifyRouter from './register/verify.js';
+import sendMail from "../utils/sendMail.js";
+import database from "../../../database/database.js";
+import { validateEmail, validatePassword } from "../utils/validate.js";
+import RegVerifyRouter from './verify.js';
 
 const RegRouter = express.Router();
-const jsonParser = bodyParser.json({ extended: false });
 
 RegRouter.use("/verify", RegVerifyRouter);
 
 //email
-RegRouter.post("/", jsonParser, async (req, res) => {
+RegRouter.post("/", async (req, res) => {
     try {
         const userData = req.body;
         const { validationError } = validateEmail(userData);
@@ -29,7 +27,7 @@ RegRouter.post("/", jsonParser, async (req, res) => {
         user = await database.addUser(userData);
         let userToken = await database.addUserToken(user._id);
 
-        const verifyUrl = `http://localhost:5000/api/register/verify/${user._id}/${userToken.token}`;
+        const verifyUrl = `http://localhost:5000/users/register/verify/${user._id}/${userToken.token}`;
 
         const mailSettings = {
             to: userData.email,
@@ -48,7 +46,7 @@ RegRouter.post("/", jsonParser, async (req, res) => {
 });
 
 //password
-RegRouter.post("/password", jsonParser, async (req, res) => {
+RegRouter.post("/password", async (req, res) => {
     try {
         const userData = req.body;
         const { validationError } = validatePassword(userData);
@@ -75,7 +73,7 @@ RegRouter.post("/password", jsonParser, async (req, res) => {
 });
 
 //name (all profile info in future)
-RegRouter.post("/name", jsonParser, async (req, res) => {
+RegRouter.post("/name", async (req, res) => {
     try {
         const user = await database.findUser({email: req.body.email});
         if (!user) {

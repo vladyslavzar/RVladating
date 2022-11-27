@@ -25,7 +25,7 @@ const Step4: FC<StepProps> = ({ nextStep, param }) => {
 
       axios
         .post (
-          "http://localhost:5000/api/register/name",
+          "http://localhost:5000/users/register/name",
         
           JSON.stringify(
           {
@@ -41,7 +41,7 @@ const Step4: FC<StepProps> = ({ nextStep, param }) => {
           )
         .then((response: any) => {
           console.log(response);
-          //redirect to accaunt
+          //redirect to account
         })
         .catch((error: any) => {
           console.error(error);

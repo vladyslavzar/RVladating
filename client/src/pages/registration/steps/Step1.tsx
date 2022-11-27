@@ -26,7 +26,7 @@ const Step1: FC<StepProps> = ({ nextStep }) => {
 
     axios
       .post(
-        "http://localhost:5000/api/register",
+        "http://localhost:5000/users/register",
         
         JSON.stringify(
           {
@@ -48,6 +48,7 @@ const Step1: FC<StepProps> = ({ nextStep }) => {
       })
       .catch((error: any) => {
         console.error(error);
+        setResponse(error.response.data.message);
       });
   }
 

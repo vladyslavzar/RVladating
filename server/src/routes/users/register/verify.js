@@ -1,12 +1,9 @@
 import express from 'express';
-import bodyParser from "body-parser";
-import database from "../utils/database.js";
+import database from "../../../database/database.js";
 
 const RegVerifyRouter = express.Router();
 
-const jsonParser = bodyParser.json({ extended: false });
-
-RegVerifyRouter.post("/", jsonParser, async (req, res) => {
+RegVerifyRouter.post("/", async (req, res) => {
     try {
         const user = await database.findUser({email: req.body.email});
         if (!user) {

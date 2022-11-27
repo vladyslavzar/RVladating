@@ -25,7 +25,7 @@ const Step2: FC<StepProps> = ({ nextStep, param }) => {
   function submit(e: any) {
     e.preventDefault();
 
-    axios.post("http://localhost:5000/api/register/verify",
+    axios.post("http://localhost:5000/users/register/verify",
       JSON.stringify({
           email: param,
           code: userData.code,
@@ -44,6 +44,7 @@ const Step2: FC<StepProps> = ({ nextStep, param }) => {
       })
       .catch((error: any) => {
         console.error(error);
+        setResponse(error.response.data.message);
       });
   }
 
@@ -55,7 +56,7 @@ const Step2: FC<StepProps> = ({ nextStep, param }) => {
     async function sendRequest() {
       while (true) {
         try {
-          const response = await axios.get(`http://localhost:5000/api/register/verify/${param}`);
+          const response = await axios.get(`http://localhost:5000/users/register/verify/${param}`);
           setResponse(response.data.message);
           if (response.data.message == "user is verified") {
             return;
