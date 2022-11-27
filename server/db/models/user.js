@@ -1,11 +1,7 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-    firstName: {
-        type: String,
-        required: false,
-    },
-    lastName: {
+    name: {
         type: String,
         required: false,
     },
@@ -18,6 +14,10 @@ const userSchema = new mongoose.Schema({
         required: false,
     },
     verified: {
+        type: Boolean,
+        default: false,
+    },
+    finished: {
         type: Boolean,
         default: false,
     }

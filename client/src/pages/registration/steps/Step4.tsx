@@ -4,9 +4,10 @@ import { TextArea } from "../../../components";
 import { StepProps } from "../../../types/index";
 import StepLayout from "./StepLayout";
 
-const Step3: FC<StepProps> = ({ nextStep, param }) => {
+const Step4: FC<StepProps> = ({ nextStep, param }) => {
     const [userData, setUserData] = useState<any>({
-        password: "",
+        //profile info
+        name: "",
     });
 
     function handle(e: any) {
@@ -24,12 +25,12 @@ const Step3: FC<StepProps> = ({ nextStep, param }) => {
 
       axios
         .post (
-          "http://localhost:5000/api/register/password",
+          "http://localhost:5000/api/register/name",
         
           JSON.stringify(
           {
             email: param,
-            password: userData.password,
+            name: userData.name,
           }
           ),
           {
@@ -40,7 +41,7 @@ const Step3: FC<StepProps> = ({ nextStep, param }) => {
           )
         .then((response: any) => {
           console.log(response);
-          nextStep(`${param}`);
+          //redirect to accaunt
         })
         .catch((error: any) => {
           console.error(error);
@@ -49,20 +50,20 @@ const Step3: FC<StepProps> = ({ nextStep, param }) => {
     }
     return (
       <StepLayout submitHandler={(e) => submit(e)}>
-        <h1>Step 3</h1>
+        <h1>Step 4 Final</h1>
 
         <TextArea
         inputHandler={(e: any) => handle(e)}
-        value={userData.email}
-        name="password"
-        id="password"
+        value={userData.name}
+        name="name"
+        id="name"
         size="small"
         isError={false}
-        placeHolder="Password"
-        type="password"
+        placeHolder="Name"
+        type="text"
         />
       </StepLayout>
     )
 }
 
-export default Step3;
+export default Step4;

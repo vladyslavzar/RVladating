@@ -54,10 +54,6 @@ class Database {
     async updateUser(data) {
         await userModel.updateOne(data);
     }
-
-    get getUserModel() {
-        return userModel;
-    }
 }
 
 const database = new Database(process.env.MONGO_URI);
