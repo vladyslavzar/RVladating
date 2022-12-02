@@ -5,6 +5,7 @@ import crypto from "crypto";
 
 class Database {
     constructor(url) {
+        console.log(url);
         this.connection = db.connect(url, {useNewUrlParser: true})
             .then (
                 () => {console.log("database connected")}
