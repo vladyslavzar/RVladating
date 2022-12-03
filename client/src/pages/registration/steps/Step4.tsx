@@ -3,16 +3,17 @@ import axios from "axios";
 import { TextArea } from "../../../components";
 import { StepProps } from "../../../types/index";
 import StepLayout from "./StepLayout";
-import { DatePicker, Space } from "antd";
+import { DatePicker, Select, Progress } from "antd";
+import type { DatePickerProps } from "antd";
 
 const Step4: FC<StepProps> = ({ nextStep, param }) => {
   const [userData, setUserData] = useState<any>({
     //profile info
     name: "",
     login: "",
-    sex: "",
+    sex: "male",
     dof: "",
-    goal: "",
+    goal: "dating",
   });
 
   function handle(e: any) {
@@ -34,7 +35,7 @@ const Step4: FC<StepProps> = ({ nextStep, param }) => {
 
         JSON.stringify({
           email: param,
-          name: userData.name,
+          ...userData,
         }),
         {
           headers: {
@@ -50,10 +51,32 @@ const Step4: FC<StepProps> = ({ nextStep, param }) => {
         console.error(error);
       });
   }
+
+  const datePick: DatePickerProps["onChange"] = (date, dateString) => {
+    const newData = { ...userData };
+    newData.dof = dateString;
+    setUserData(newData);
+  };
+
+  const handleSex = (value: string) => {
+    const newData = { ...userData };
+    newData.sex = value;
+    setUserData(newData);
+  };
+
+  const handleGoal = (value: string) => {
+    const newData = { ...userData };
+    newData.goal = value;
+    setUserData(newData);
+  };
+
   return (
     <StepLayout submitHandler={(e) => submit(e)}>
-      <h1>Step 4 Final</h1>
-
+      <Progress
+        type="circle"
+        percent={75}
+        strokeColor={{ "0%": "#108ee9", "100%": "#87d068" }}
+      />
       <TextArea
         inputHandler={(e: any) => handle(e)}
         value={userData.name}
@@ -74,35 +97,40 @@ const Step4: FC<StepProps> = ({ nextStep, param }) => {
         placeHolder="Login"
         type="text"
       />
-      <TextArea
-        inputHandler={(e: any) => handle(e)}
-        value={userData.sex}
-        name="name"
-        id="name"
-        size="small"
-        isError={false}
-        placeHolder="Name"
-        type="text"
+      <Select
+        defaultValue="male"
+        style={{ width: 120 }}
+        onChange={handleSex}
+        options={[
+          {
+            value: "male",
+            label: "male",
+          },
+          {
+            value: "female",
+            label: "female",
+          },
+          {
+            value: "other",
+            label: "other",
+          },
+        ]}
       />
-      <TextArea
-        inputHandler={(e: any) => handle(e)}
-        value={userData.dof}
-        name="name"
-        id="name"
-        size="small"
-        isError={false}
-        placeHolder="Date of birth"
-        type="text"
-      />
-      <TextArea
-        inputHandler={(e: any) => handle(e)}
-        value={userData.goal}
-        name="name"
-        id="name"
-        size="small"
-        isError={false}
-        placeHolder="Goal"
-        type="text"
+      <DatePicker onChange={datePick} />
+      <Select
+        defaultValue="dating"
+        style={{ width: 120 }}
+        onChange={handleGoal}
+        options={[
+          {
+            value: "dating",
+            label: "dating",
+          },
+          {
+            value: "friendship",
+            label: "friendship",
+          },
+        ]}
       />
     </StepLayout>
   );

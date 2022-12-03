@@ -3,6 +3,7 @@ import axios from "axios";
 import { TextArea } from "../../../components";
 import { StepProps } from "../../../types/index";
 import StepLayout from "./StepLayout";
+import { Progress } from "antd";
 
 const Step2: FC<StepProps> = ({ nextStep, param }) => {
   const [response, setResponse] = useState<any>();
@@ -20,22 +21,24 @@ const Step2: FC<StepProps> = ({ nextStep, param }) => {
   }
 
   /*
-  * if user want to he can copy/paste verification code in form directly
-  */
+   * if user want to he can copy/paste verification code in form directly
+   */
   function submit(e: any) {
     e.preventDefault();
 
-    axios.post("http://localhost:5000/users/register/verify",
-      JSON.stringify({
+    axios
+      .post(
+        "http://localhost:5000/users/register/verify",
+        JSON.stringify({
           email: param,
           code: userData.code,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      ),
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      )
       .then((response: any) => {
         setResponse(response.data.message);
         if (response.data.message == "successfully verified user") {
@@ -49,20 +52,20 @@ const Step2: FC<StepProps> = ({ nextStep, param }) => {
   }
 
   /*
-  * here we check if user is verified from link to skip step
-  */
+   * here we check if user is verified from link to skip step
+   */
   useEffect(() => {
-
     async function sendRequest() {
       while (true) {
         try {
-          const response = await axios.get(`http://localhost:5000/users/register/verify/${param}`);
+          const response = await axios.get(
+            `http://localhost:5000/users/register/verify/${param}`
+          );
           setResponse(response.data.message);
           if (response.data.message == "user is verified") {
             return;
           }
-        }
-        catch (error) {
+        } catch (error) {
           console.error(error);
         }
       }
@@ -75,6 +78,11 @@ const Step2: FC<StepProps> = ({ nextStep, param }) => {
 
   return (
     <StepLayout submitHandler={(e: any) => submit(e)}>
+      <Progress
+        type="circle"
+        percent={25}
+        strokeColor={{ "0%": "#108ee9", "100%": "#87d068" }}
+      />
       <TextArea
         inputHandler={(e: any) => handle(e)}
         value={userData.code}

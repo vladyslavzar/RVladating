@@ -7,8 +7,8 @@ import { Space } from "antd";
 const StepLayout: FC<StepLayoutProps> = ({ submitHandler, children }) => {
   return (
     <Container>
-      <form onSubmit={(e) => submitHandler(e)}>
-        <Space direction="vertical">
+      <form onSubmit={(e) => submitHandler(e)} className="stepForm">
+        <Space direction="vertical" align="center" size="middle">
           {children}
           <DefaultButton type="submit" text="submit" isFilled={false} />
         </Space>

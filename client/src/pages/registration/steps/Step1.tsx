@@ -3,6 +3,7 @@ import axios from "axios";
 import { TextArea } from "../../../components";
 import { StepProps } from "../../../types/index";
 import StepLayout from "./StepLayout";
+import { Progress } from "antd";
 
 const Step1: FC<StepProps> = ({ nextStep }) => {
   const [userData, setUserData] = useState<any>({
@@ -27,12 +28,10 @@ const Step1: FC<StepProps> = ({ nextStep }) => {
     axios
       .post(
         "http://localhost:5000/users/register",
-        
-        JSON.stringify(
-          {
-            email: userData.email,
-          }
-        ),
+
+        JSON.stringify({
+          email: userData.email,
+        }),
         {
           headers: {
             "Content-Type": "application/json",
@@ -54,7 +53,11 @@ const Step1: FC<StepProps> = ({ nextStep }) => {
 
   return (
     <StepLayout submitHandler={(e) => submit(e)}>
-      <h1>Step 1</h1>
+      <Progress
+        type="circle"
+        percent={0}
+        strokeColor={{ "0%": "#108ee9", "100%": "#87d068" }}
+      />
       <TextArea
         inputHandler={(e: any) => handle(e)}
         value={userData.email}
