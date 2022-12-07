@@ -17,6 +17,8 @@ RegVerifyRouter.post("/", async (req, res) => {
 
         await database.updateUser({id: user._id, verified: true});
         await token.remove();
+        await database.updateUser({id: user._id, step: 3});
+
         res.json({message: "successfully verified user"});
     }
     catch (error) {
@@ -36,6 +38,8 @@ RegVerifyRouter.get("/:id/:token", async (req, res) => {
 
             await database.updateUser({id: user._id, verified: true});
             await token.remove();
+            await database.updateUser({id: user._id, step: 3});
+
             res.redirect("http://localhost:3000");
         }
         else {

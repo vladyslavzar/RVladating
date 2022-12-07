@@ -35,7 +35,7 @@ const Step4: FC<StepProps> = ({ nextStep, param }) => {
 
         JSON.stringify({
           email: param,
-          ...userData,
+          name: userData.name,
         }),
         {
           headers: {

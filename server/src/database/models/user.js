@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema({
     finished: {
         type: Boolean,
         default: false,
+    },
+    step: {
+        type: Number,
+        default: 1,
     }
 });
 

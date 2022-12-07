@@ -41,6 +41,7 @@ const Step1: FC<StepProps> = ({ nextStep }) => {
       .then((response: any) => {
         setResponse(response.data.message);
         console.log(response);
+        localStorage.setItem("email", userData.email);
         setTimeout(() => {
           nextStep(userData.email);
         }, 3000);

@@ -27,6 +27,7 @@ RegRouter.post("/", async (req, res) => {
         user = await database.addUser(userData);
         let userToken = await database.addUserToken(user._id);
 
+
         const verifyUrl = `http://localhost:5000/users/register/verify/${user._id}/${userToken.token}`;
 
         const mailSettings = {
@@ -37,7 +38,8 @@ RegRouter.post("/", async (req, res) => {
         
         let mailRes = sendMail(mailSettings);
         console.log(mailRes);
-        res.status(200).json({message: "succesfully created user"})
+        await database.updateUser({id: user._id, step: 2});
+        res.status(200).json({message: "succesfully created user"});
     }
     catch (error) {
         console.error(error);
@@ -64,6 +66,8 @@ RegRouter.post("/password", async (req, res) => {
         }
 
         await database.updateUser({id: user._id, password: hashedPassword});
+        await database.updateUser({id: user._id, step: 4});
+
         res.json({message: "succesfully created password"});
     }
     catch (error) {
@@ -80,7 +84,9 @@ RegRouter.post("/name", async (req, res) => {
            res.status(404).json({message: "user with this email does not exist"});
         }
 
-        database.updateUser({id: user._id, name: req.body.name, finished: true});
+        await database.updateUser({id: user._id, name: req.body.name, finished: true});
+        await database.updateUser({id: user._id, $unset: {step: 4}});
+
         res.json({message: "success"});
     }
     catch (error) {
